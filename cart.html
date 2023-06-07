@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+  <link rel="stylesheet" href="./style.css">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"
+          integrity="sha512-fD9DI5bZwQxOi7MhYWnnNPlvXdp/2Pj3XSTRrFs5FQa4mizyGLnJcN6tuvUS6LbmgN1ut+XGSABKvjN0H6Aoow=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <header>
+    <div class="header__container">
+      <div class="header__logo">
+        <img src="./Img//Logo_NIKE.svg.png" alt="logo">
+        <h1>Nike</h1>
+      </div>
+      <div class="header__menu">
+        <ul class="header__menu__inner">
+          <li class="header__menu__item ">
+            <a href="./index.html">Home</a>
+          </li>
+          <li class="header__menu__item">
+            <a href="">About</a>
+          </li>
+          <li class="header__menu__item">
+            <a href="">Bills</a>
+          </li>
+          <li class="header__menu__item header__menu__item--active">
+            <a href="./cart.html">
+              <span><i class="fa-solid fa-cart-shopping"></i></span>
+              <span id="cart__quanlity">3</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="main__container">
+      <section class="cart"></section>
+      <div class="cart__BtnAction">
+        <button><a href="./index.html">Back to shopping</a></button>
+        <button id="btnOpenDialog">Buy</button>
+      </div>
+      <section class="buyDialog">
+        <form action="" class="buyDialog__form">
+          <div class="buyDialog__form__heading">
+            <h2>Thông tin người mua</h2>
+            <button type="button" class="btnCloseDialog"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+          <div class="buyDialog__form_group">
+            <label for="">Họ và tên</label>
+            <div class="buyDialog__form__name">
+              <input type="text" placeholder="Họ">
+              <input type="text" placeholder="Tên">
+            </div>
+          </div>
+          <div class="buyDialog__form_group">
+            <label for="">Email</label>
+            <input type="text" placeholder="Email">
+          </div>
+          <div class="buyDialog__form_group">
+            <label for="">Số điện thoại</label>
+            <input type="text" placeholder="Số điện thoại">
+          </div>
+          <div class="buyDialog__form_group">
+            <label for="">Địa chỉ</label>
+            <div class="buyDialog__form__address">
+              <select name="" id="selectProvince">
+                <option selected>--Chọn Tỉnh/Thành phố--</option>
+              </select>
+              <select name="" id="selectDistrict">
+                <option selected>--Chọn Huyện/Quận--</option>
+              </select>
+              <select name="" id="selectWard">
+                <option selected>--Chọn Phường/Xã--</option>
+              </select>
+            </div>
+            <input type="text" placeholder="Số nhà">
+          </div>
+          <div class="buyDialog__form_group">
+            <label for="">Lời nhắn</label>
+            <div class="buyDialog__form__message">
+              <textarea name="" id="" rows="8"></textarea>
+            </div>
+          </div>
+          <div class="buyDialog__form_action">
+            <button>Hủy</button>
+            <button>Xác nhận</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+</body>
+<script type="module" src="./js/cart.mjs"></script>
+
+</html>
