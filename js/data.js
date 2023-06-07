@@ -64,5 +64,3 @@ const listData = [
 		quanlity: 456,
 	},
 ];
-
-export default listData;

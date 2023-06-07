@@ -1,4 +1,4 @@
-export default Array.prototype.calculatePriceProduct = function () {
+Array.prototype.calculatePriceProduct = function () {
 	const totalMap = new Map();
 
 	let totalQuanlity = this.reduce((accumulator, currentValue) => {

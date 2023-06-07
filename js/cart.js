@@ -1,16 +1,3 @@
-import {
-	getDistrictsByProvinceID,
-	getWardsByDistrictsID,
-	getProvincesFromApi,
-} from "./address.mjs";
-import {
-	getItemCartFromLocalstorage,
-	saveItemCartFromLocalstorage,
-	getListSpFromLocalstorage,
-} from "./localStorage.mjs";
-
-import calculatePriceProduct from "./arrayPrototype.mjs";
-
 function getByIdSP(id) {
 	const listDataLocal = getListSpFromLocalstorage();
 	const findProduct = listDataLocal.find((product) => {
@@ -18,6 +5,32 @@ function getByIdSP(id) {
 	});
 
 	return findProduct;
+}
+
+function addSP(idSp, quanlity) {
+	const dataCartLocal = getItemCartFromLocalstorage();
+	if (dataCartLocal) {
+		let arr = dataCartLocal;
+		let isItemCartExist = false;
+
+		for (let i = 0; i < arr.length; i++) {
+			if (arr[i].id === idSp) {
+				arr[i].quanlity += quanlity;
+				isItemCartExist = true;
+				break;
+			}
+		}
+
+		if (!isItemCartExist) {
+			let newCartItem = { id: idSp, quanlity: quanlity };
+			arr.push(newCartItem);
+		}
+
+		saveItemCartFromLocalstorage(arr);
+	} else {
+		let newCart = [{ id: idSp, quanlity: quanlity }];
+		saveItemCartFromLocalstorage(newCart);
+	}
 }
 
 function renderCartItem() {

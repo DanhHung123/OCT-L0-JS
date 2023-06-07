@@ -1,36 +1,3 @@
-import {
-	getListSpFromLocalstorage,
-	saveListDataToLocalstorage,
-	getItemCartFromLocalstorage,
-} from "./localStorage.mjs";
-import listData from "./data.mjs";
-
-function addSP(idSp, quanlity) {
-	const dataCartLocal = getItemCartFromLocalstorage();
-	if (dataCartLocal) {
-		let arr = dataCartLocal;
-		let isItemCartExist = false;
-
-		for (let i = 0; i < arr.length; i++) {
-			if (arr[i].id === idSp) {
-				arr[i].quanlity += quanlity;
-				isItemCartExist = true;
-				break;
-			}
-		}
-
-		if (!isItemCartExist) {
-			let newCartItem = { id: idSp, quanlity: quanlity };
-			arr.push(newCartItem);
-		}
-
-		saveItemCartFromLocalstorage(arr);
-	} else {
-		let newCart = [{ id: idSp, quanlity: quanlity }];
-		saveItemCartFromLocalstorage(newCart);
-	}
-}
-
 function renderListProduct(listProduct) {
 	const productBox = document.querySelector(".products");
 	const listProductHtml = listProduct.map((product) => {
@@ -58,10 +25,8 @@ function renderListProduct(listProduct) {
 	}
 }
 
-// (function () {
-
-// })();
-
-saveListDataToLocalstorage(listData);
-let listProduct = getListSpFromLocalstorage();
-renderListProduct(listProduct);
+(function () {
+	saveListDataToLocalstorage(listData);
+	let listProduct = getListSpFromLocalstorage();
+	renderListProduct(listProduct);
+})();

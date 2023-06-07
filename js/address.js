@@ -27,5 +27,3 @@ function getWardsByDistrictsID(id) {
 			return error;
 		});
 }
-
-export { getDistrictsByProvinceID, getProvincesFromApi, getWardsByDistrictsID };

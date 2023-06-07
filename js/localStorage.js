@@ -23,10 +23,3 @@ function getItemCartFromLocalstorage() {
 function saveItemCartFromLocalstorage(arrItemCart) {
 	localStorage.setItem(keyLocalStorageItemCart, JSON.stringify(arrItemCart));
 }
-
-export {
-	saveListDataToLocalstorage,
-	getItemCartFromLocalstorage,
-	getListSpFromLocalstorage,
-	saveItemCartFromLocalstorage,
-};
