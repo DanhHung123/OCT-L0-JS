@@ -1,5 +1,5 @@
 function getByIdSP(id) {
-	const listDataLocal = getListSpFromLocalstorage();
+	const listDataLocal = myLibary.getListSpFromLocalstorage();
 	const findProduct = listDataLocal.find((product) => {
 		return product.id === id;
 	});
@@ -8,33 +8,84 @@ function getByIdSP(id) {
 }
 
 function addSP(idSp, quanlity) {
-	const dataCartLocal = getItemCartFromLocalstorage();
+	const dataCartLocal = myLibary.getItemCartFromLocalstorage();
 	if (dataCartLocal) {
 		let arr = dataCartLocal;
 		let isItemCartExist = false;
 
 		for (let i = 0; i < arr.length; i++) {
 			if (arr[i].id === idSp) {
-				arr[i].quanlity += quanlity;
+				let product = getByIdSP(arr[i].id);
+				if (product.quanlity > arr[i].quanlity) {
+					arr[i].quanlity += quanlity;
+					notify("INFOR");
+				} else {
+					notify("QUANLITY");
+				}
 				isItemCartExist = true;
 				break;
 			}
 		}
 
 		if (!isItemCartExist) {
-			let newCartItem = { id: idSp, quanlity: quanlity };
-			arr.push(newCartItem);
+			let product = getByIdSP(idSp);
+			if (product.quanlity > 0) {
+				let newCartItem = { id: idSp, quanlity: quanlity };
+				arr.push(newCartItem);
+				notify("INFOR");
+			} else {
+				notify("QUANLITY");
+			}
 		}
 
-		saveItemCartFromLocalstorage(arr);
+		myLibary.saveItemCartFromLocalstorage(arr);
 	} else {
-		let newCart = [{ id: idSp, quanlity: quanlity }];
-		saveItemCartFromLocalstorage(newCart);
+		let product = getByIdSP(idSp);
+		if (product.quanlity > 0) {
+			let newCart = [{ id: idSp, quanlity: quanlity }];
+			myLibary.saveItemCartFromLocalstorage(newCart);
+			notify("INFOR");
+		} else {
+			notify("QUANLITY");
+		}
+	}
+	renderCartQuanlityHeader();
+}
+
+function deleteSp(id) {
+	const dataCartLocal = myLibary.getItemCartFromLocalstorage();
+	if (dataCartLocal) {
+		const cartAfterDelete = dataCartLocal.filter((product) => {
+			return product.id !== id;
+		});
+		myLibary.saveItemCartFromLocalstorage(cartAfterDelete);
+		renderCartTable(renderCartItem());
+		renderCartQuanlityHeader();
+		notify("DELETE");
+	}
+}
+
+function changeQuanlityProductCart(id, maxQuanlity, quanlity) {
+	const dataCartLocal = myLibary.getItemCartFromLocalstorage();
+	if (dataCartLocal) {
+		const cartLocal = dataCartLocal.map((item) => {
+			let newQuanlity = item.quanlity + quanlity;
+			if (item.id === id && newQuanlity > 0 && newQuanlity <= maxQuanlity) {
+				return {
+					id: item.id,
+					quanlity: newQuanlity,
+				};
+			}
+			return item;
+		});
+
+		myLibary.saveItemCartFromLocalstorage(cartLocal);
+		renderCartTable(renderCartItem());
 	}
 }
 
 function renderCartItem() {
-	const cartItemLocal = getItemCartFromLocalstorage();
+	const cartItemLocal = myLibary.getItemCartFromLocalstorage();
 	if (cartItemLocal) {
 		const dataCartItem = cartItemLocal;
 
@@ -53,35 +104,41 @@ function renderCartItem() {
 			</td>
 			<td>
 				<div class="cart__table__item--quanlity">
-					<button type="button"><i class="fa-solid fa-minus"></i></button>
+					<button type="button"><i class="fa-solid fa-minus" 
+						onclick="changeQuanlityProductCart(${item.id},${product.quanlity},-1)"></i>
+					</button>
 					<span>${item.quanlity}</span>
-					<button type="button"><i class="fa-solid fa-plus"></i></button>
+					<button type="button"
+						onclick="changeQuanlityProductCart(${item.id},${
+				product.quanlity
+			},1)"><i class="fa-solid fa-plus"></i>
+					</button>
 				</div>
 			</td>
 			<td>
-				$${product.price}
+				${formatPrice(product.price)}
 			</td>
-			<td>$${product.price * item.quanlity}</td>
+			<td class="cart__table__item--price">${formatPrice(
+				product.price * item.quanlity
+			)}</td>
 			<td class="cart__table__item--clear">
-				<button><i class="fa-regular fa-circle-xmark"></i></button>
+				<button onclick="deleteSp(${
+					item.id
+				})"><i class="fa-regular fa-circle-xmark"></i></button>
 			</td>
 		</tr>
 		`;
 		});
 
 		return cartItemHtml;
-	} else {
-		return `<div class="cart__empty">
-      <img src="https://assets.materialup.com/uploads/16e7d0ed-140b-4f86-9b7e-d9d1c04edb2b/preview.png" alt="cart">
-      <button><a href="./index.html">Back to shoping</a></button>
-    </div>`;
 	}
 }
 
 function renderCartTable(cartItem) {
 	const cartBox = document.querySelector(".cart");
-	const dataCartItem = getItemCartFromLocalstorage();
-	if (dataCartItem) {
+	const cartBtnAction = document.querySelector(".cart__BtnAction");
+	const dataCartItem = myLibary.getItemCartFromLocalstorage();
+	if (dataCartItem && dataCartItem.length > 0) {
 		const cartFillterFromLocal = dataCartItem.map((item) => {
 			let product = getByIdSP(item.id);
 			return {
@@ -107,36 +164,50 @@ function renderCartTable(cartItem) {
       <div class="cart__total">
         <p>
           <span>Quanlity: ${totalMap.get("totalQuanlity")}</span>
-          <span>Total: $${totalMap.get("totalPrice")}</span>
+          <span>Total: ${formatPrice(totalMap.get("totalPrice"))}</span>
         </p>
       </div>`;
-		if (cartBox) {
-			cartBox.innerHTML = cartTableHtml;
-		}
+		cartBox.innerHTML = cartTableHtml;
+		cartBtnAction.classList.remove("cart__BtnAction--hidden");
+	} else {
+		cartBox.innerHTML = `<div class="cart__empty">
+			<img src="https://assets.materialup.com/uploads/16e7d0ed-140b-4f86-9b7e-d9d1c04edb2b/preview.png" alt="cart">
+			<button><a href="./index.html">Back to shoping</a></button>
+		</div>`;
+		cartBtnAction.classList.add("cart__BtnAction--hidden");
 	}
 }
 
-function updateSelectAddressUI(data, selector) {
-	const selectTag = document.querySelector(selector);
-	if (selectTag) {
-		data.forEach((element) => {
-			let optionTag = document.createElement("option");
-			optionTag.setAttribute("value", element.code);
-			optionTag.textContent = element.name;
-			selectTag.appendChild(optionTag);
-		});
+function renderCartQuanlityHeader() {
+	const cartHeader = document.querySelector("#cart__quanlity");
+	const dataCartLocal = myLibary.getItemCartFromLocalstorage();
+	if (dataCartLocal) {
+		cartHeader.innerHTML = dataCartLocal.length;
+	} else {
+		cartHeader.innerHTML = "0";
 	}
 }
 
 (function () {
-	let cartItem = renderCartItem();
-	renderCartTable(cartItem);
+	const cart = document.querySelector(".cart");
+	if (cart) {
+		renderCartTable(renderCartItem());
 
-	// const btnOpenDialog = document.querySelector("#btnOpenDialog");
-	// btnOpenDialog.addEventListener("click", () => {
-	// 	const buyDialog = document.querySelector(".buyDialog");
-	// 	buyDialog.classList.add("buyDialog--active");
-	// });
+		const buyDialog = document.querySelector(".buyDialog");
+		const btnOpenDialog = document.querySelector("#btnOpenDialog");
+		btnOpenDialog.addEventListener("click", () => {
+			buyDialog.classList.add("buyDialog--active");
+		});
 
-	// const btnCloseDialog = document.querySelectorAll(".btnCloseDialog");
+		const btnCloseDialog = document.querySelectorAll(".btnCloseDialog");
+		btnCloseDialog.forEach((btn) => {
+			btn.addEventListener("click", () => {
+				buyDialog.classList.remove("buyDialog--active");
+			});
+		});
+
+		updateProvinces();
+	}
+
+	renderCartQuanlityHeader();
 })();

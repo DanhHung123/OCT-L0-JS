@@ -5,7 +5,7 @@ const listData = [
 		image:
 			"https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/e8a96d27-6374-4ec8-81b1-033f476778f1/air-force-1-07-shoes-VWCc04.png",
 		price: 10000,
-		quanlity: 34,
+		quanlity: 5,
 	},
 	{
 		id: 2,
