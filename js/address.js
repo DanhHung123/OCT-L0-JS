@@ -28,15 +28,21 @@ function getWardsByDistrictsID(id) {
 		});
 }
 
-function updateSelectAddressUI(data, selectorNode) {
-	if (selectorNode) {
+function updateSelectAddressUI(data, selectorNode, role) {
+	const roleList = {
+		Province: "<option selected value='none'>--Chọn Tỉnh/Thành phố--</option>",
+		District: "<option selected value='none'>--Chọn Huyện/Quận--</option>",
+		Ward: "<option selected value='none'>--Chọn Phường/Xã--</option>",
+	};
+	if (data) {
 		selectorNode.innerHTML = "";
-		data.forEach((element) => {
-			let optionTag = document.createElement("option");
-			optionTag.setAttribute("value", element.code);
-			optionTag.textContent = element.name;
-			selectorNode.appendChild(optionTag);
+		const optionTagList = data.map((element) => {
+			return `<option value=${element.code}>${element.name}</option>`;
 		});
+		optionTagList.unshift(roleList[role]);
+		selectorNode.innerHTML = optionTagList.join("");
+	} else {
+		selectorNode.innerHTML = roleList[role];
 	}
 }
 
@@ -44,13 +50,16 @@ async function updateProvinces() {
 	try {
 		const provinces = await getProvincesFromApi();
 		const selectorProvince = document.querySelector("#selectProvince");
-		updateSelectAddressUI(provinces, selectorProvince);
+		updateSelectAddressUI(provinces, selectorProvince, "Province");
 		selectorProvince.addEventListener("change", (event) => {
 			updateDistricts(event.target.value);
 		});
-		updateDistricts(selectorProvince.value);
+
+		if (selectorProvince.value !== "none") {
+			updateDistricts(selectorProvince.value);
+		}
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 	}
 }
 
@@ -58,13 +67,16 @@ async function updateDistricts(id) {
 	try {
 		const data = await getDistrictsByProvinceID(id);
 		const selectorDistricts = document.querySelector("#selectDistrict");
-		updateSelectAddressUI(data.districts, selectorDistricts);
-		selectorDistricts.addEventListener("change", (event) => {
-			updateWards(event.target.value);
+		updateSelectAddressUI(data.districts, selectorDistricts, "District");
+		selectorDistricts.addEventListener("change", () => {
+			if (selectorDistricts.value !== "none") {
+				updateWards(selectorDistricts.value);
+			}
 		});
+
 		updateWards(selectorDistricts.value);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 	}
 }
 
@@ -72,8 +84,8 @@ async function updateWards(id) {
 	try {
 		const data = await getWardsByDistrictsID(id);
 		const selectorWards = document.querySelector("#selectWard");
-		updateSelectAddressUI(data.wards, selectorWards);
+		updateSelectAddressUI(data.wards, selectorWards, "Ward");
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 	}
 }

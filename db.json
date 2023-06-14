@@ -1,3 +1,63 @@
 {
-  "bills": []
+  "bills": [
+    {
+      "id": "xA7RKbtw6p",
+      "fullName": "fgj gjh",
+      "email": "gjghj@jghk.dfg",
+      "phone": "0123467895",
+      "address": "Thị trấn Tân Yên, Thành phố Tuyên Quang, Thành phố Hà Nội",
+      "houseNumber": "67",
+      "message": "ok",
+      "date": "6/14/2023",
+      "products": [
+        {
+          "id": 4,
+          "name": "Nike Air Max 90 By You Custom Men's Shoes",
+          "image": "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/7fbc5e94-8d49-4730-a280-f19d3cfad0b0/custom-nike-air-max-90-by-you.png",
+          "quanlity": 1,
+          "price": 3566
+        }
+      ]
+    },
+    {
+      "id": "UZwJZLohjD",
+      "fullName": "fdh dfh",
+      "email": "dfh@gdfh.gj",
+      "phone": "0123456789",
+      "address": "Thị trấn Hợp Hòa, Thành phố Vĩnh Yên, Thành phố Hà Nội",
+      "houseNumber": "45",
+      "message": "",
+      "date": "6/14/2023",
+      "products": [
+        {
+          "id": 2,
+          "name": "Nike Dunk Low By You Custom Men's Shoes",
+          "image": "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/9dca0780-43e6-407b-b014-17c1318d47e1/custom-nike-dunk-low-by-you.png",
+          "quanlity": 1,
+          "price": 24555
+        },
+        {
+          "id": 1,
+          "name": "Nike Air Force 1 '07 Men's Shoes",
+          "image": "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/e8a96d27-6374-4ec8-81b1-033f476778f1/air-force-1-07-shoes-VWCc04.png",
+          "quanlity": 1,
+          "price": 10000
+        },
+        {
+          "id": 3,
+          "name": "Nike Air Max 97 By You Custom Men's Shoe",
+          "image": "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/95c80cf2-ff69-48bd-91a8-aba951b2c153/custom-nike-air-max-97-by-you.png",
+          "quanlity": 1,
+          "price": 1233
+        },
+        {
+          "id": 4,
+          "name": "Nike Air Max 90 By You Custom Men's Shoes",
+          "image": "https://static.nike.com/a/images/t_PDP_1280_v1/f_auto,q_auto:eco/7fbc5e94-8d49-4730-a280-f19d3cfad0b0/custom-nike-air-max-90-by-you.png",
+          "quanlity": 1,
+          "price": 3566
+        }
+      ]
+    }
+  ]
 }

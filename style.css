@@ -332,6 +332,7 @@ main {
 .buyDialog__form__address select {
 	padding: 10px 20px;
 	border-radius: 8px;
+	width: 100%;
 }
 
 .buyDialog__form__message textarea {

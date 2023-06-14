@@ -32,6 +32,11 @@ function notify(type) {
 			message: "Trả hàng thành công !",
 			class: "notify--delete",
 		},
+		BANBUY: {
+			icon: "<i class='fa-solid fa-ban'></i>",
+			message: "Vui lòng nhập thông tin đúng theo yêu cầu!",
+			class: "notify--delete",
+		},
 	};
 
 	let notifyItem = document.createElement("div");

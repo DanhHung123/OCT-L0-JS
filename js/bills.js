@@ -30,11 +30,10 @@ const createNewBill = () => {
 	).value;
 	const message = document.querySelector("#buyDialog__input__mess").value;
 	const province =
-		document.querySelector("#selectProvince").firstElementChild.textContent;
+		document.querySelector("#selectProvince").children[1].textContent;
 	const district =
-		document.querySelector("#selectDistrict").firstElementChild.textContent;
-	const ward =
-		document.querySelector("#selectWard").firstElementChild.textContent;
+		document.querySelector("#selectDistrict").children[1].textContent;
+	const ward = document.querySelector("#selectWard").children[1].textContent;
 
 	myLibary.generateRandomId();
 	const randomId = myLibary.getRandomIdFromLocal();
@@ -74,7 +73,7 @@ const postBillToServer = async () => {
 		myLibary.clearCartLocal();
 		notify("SUCCESS");
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		notify("ERROR");
 	}
 };
@@ -98,14 +97,17 @@ const updateProductAfterReturn = (bill) => {
 };
 
 const returnBill = async (idBill) => {
-	try {
-		const bill = await myLibary.getBillById(idBill);
-		updateProductAfterReturn(bill);
-		await myLibary.deleteBillApi(idBill);
-		notify("RETURN");
-	} catch {
-		console.log(error);
-		notify("ERROR");
+	let comfirmReturn = confirm("Bạn muốn trả hàng ?");
+	if (comfirmReturn) {
+		try {
+			const bill = await myLibary.getBillById(idBill);
+			updateProductAfterReturn(bill);
+			await myLibary.deleteBillApi(idBill);
+			notify("RETURN");
+		} catch {
+			console.error(error);
+			notify("ERROR");
+		}
 	}
 };
 
@@ -123,7 +125,7 @@ const renderBillItem = async () => {
 							<h3>Thông tin khách hàng</h3>
 							<p>Họ và tên: ${bill.fullName}</p>
 							<p>Số điện thoại: ${bill.phone}</p>
-							<p>Địa chỉ: ${bill.phone}</p>
+							<p>Địa chỉ: ${bill.address}</p>
 							<p>Số nhà: ${bill.houseNumber}</p>
 							<p>Ghi chú: ${bill.message ? bill.message : "..."}</p>
 						</div>
@@ -163,7 +165,7 @@ const renderBillItem = async () => {
 
 		renderBillUI(billItems);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		notify("ERROR");
 	}
 };
@@ -207,6 +209,11 @@ const renderBillUI = (billItems) => {
 			btn.addEventListener("click", () => {
 				btn.nextElementSibling.classList.toggle("bill__detail--hidden");
 			});
+			document.addEventListener("click", (event) => {
+				if (event.target !== btn && event.target !== btn.nextElementSibling) {
+					btn.nextElementSibling.classList.add("bill__detail--hidden");
+				}
+			});
 		});
 	}
 };
@@ -216,7 +223,7 @@ const renderBillUI = (billItems) => {
 	if (btnBuySubmit) {
 		btnBuySubmit.addEventListener("click", () => {
 			if (btnBuySubmit.classList.contains("btn__Submit--disable")) {
-				notify("ERROR");
+				notify("BANBUY");
 			} else {
 				postBillToServer();
 			}

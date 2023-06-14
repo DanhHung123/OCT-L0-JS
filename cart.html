@@ -83,15 +83,24 @@
           <div class="buyDialog__form_group">
             <label for="">Địa chỉ</label>
             <div class="buyDialog__form__address">
-              <select name="" id="selectProvince">
-                <option selected>--Chọn Tỉnh/Thành phố--</option>
-              </select>
-              <select name="" id="selectDistrict">
-                <option selected>--Chọn Huyện/Quận--</option>
-              </select>
-              <select name="" id="selectWard">
-                <option selected>--Chọn Phường/Xã--</option>
-              </select>
+              <div>
+                <select name="" id="selectProvince">
+                  <option selected value="none">--Chọn Tỉnh/Thành phố--</option>
+                </select>
+                <span class="buyDialog__form__error"></span>
+              </div>
+              <div>
+                <select name="" id="selectDistrict">
+                  <option selected value="none">--Chọn Huyện/Quận--</option>
+                </select>
+                <span class="buyDialog__form__error"></span>
+              </div>
+              <div>
+                <select name="" id="selectWard">
+                  <option selected value="none">--Chọn Phường/Xã--</option>
+                </select>
+                <span class="buyDialog__form__error"></span>
+              </div>
             </div>
             <input type="text" placeholder="Số nhà" id="buyDialog__input__houseNumber">
             <span class="buyDialog__form__error"></span>

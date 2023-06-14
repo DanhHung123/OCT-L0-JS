@@ -98,7 +98,7 @@ const API = "http://localhost:3000/bills";
 			});
 			return false;
 		} catch (error) {
-			console.log("error");
+			console.error("error");
 		}
 	};
 

@@ -4,13 +4,13 @@ const validateInputCheck = {
 	email: true,
 	phone: true,
 	houseNumber: true,
+	province: true,
+	district: true,
+	ward: true,
 };
 
-function changeValidateInputCheck(key, value) {
+function toogleDisableBtnSubmit(key, value) {
 	validateInputCheck[key] = value;
-}
-
-function toogleDisableBtnSubmit() {
 	const btnSubmit = document.querySelector("#btnBuySubmit");
 
 	const isValidateAll = () => {
@@ -28,28 +28,30 @@ function toogleDisableBtnSubmit() {
 	} else {
 		btnSubmit.classList.remove("btn__Submit--disable");
 	}
+
+	return isValidateAll();
 }
 
 function validateFirstName() {
-	const regexName = /^[a-zA-Z\s]+$/;
+	const regexName = /^[\p{L} ]+$/u;
 	const firstName = document.querySelector("#buyDialog__input__firstName");
 	const firstNameError = document.querySelector(
 		"#buyDialog__input__firstName ~ .buyDialog__form__error"
 	);
 	if (firstName.value === "") {
 		firstNameError.textContent = "Vui lòng nhập họ!";
-		changeValidateInputCheck("firstName", true);
+		toogleDisableBtnSubmit("firstName", true);
 	} else if (!regexName.test(firstName.value)) {
 		firstNameError.textContent = "Họ không được có số và kí tự đặc biệt!";
-		changeValidateInputCheck("firstName", true);
+		toogleDisableBtnSubmit("firstName", true);
 	} else {
 		firstNameError.textContent = "";
-		changeValidateInputCheck("firstName", false);
+		toogleDisableBtnSubmit("firstName", false);
 	}
 }
 
 function validateLastName() {
-	const regexName = /^[a-zA-Z\s]+$/;
+	const regexName = /^[\p{L} ]+$/u;
 	const lastName = document.querySelector("#buyDialog__input__lastName");
 	const lastNameError = document.querySelector(
 		"#buyDialog__input__lastName ~ .buyDialog__form__error"
@@ -57,13 +59,13 @@ function validateLastName() {
 
 	if (lastName.value === "") {
 		lastNameError.textContent = "Vui lòng nhập tên!";
-		changeValidateInputCheck("lastName", true);
+		toogleDisableBtnSubmit("lastName", true);
 	} else if (!regexName.test(lastName.value)) {
 		lastNameError.textContent = "Tên không được có số và kí tự đặc biệt!";
-		changeValidateInputCheck("lastName", true);
+		toogleDisableBtnSubmit("lastName", true);
 	} else {
 		lastNameError.textContent = "";
-		changeValidateInputCheck("lastName", false);
+		toogleDisableBtnSubmit("lastName", false);
 	}
 }
 
@@ -75,13 +77,13 @@ function validateEmail() {
 	);
 	if (email.value === "") {
 		emailError.textContent = "Vui lòng nhập email!";
-		changeValidateInputCheck("email", true);
+		toogleDisableBtnSubmit("email", true);
 	} else if (!regexEmail.test(email.value)) {
 		emailError.textContent = "Email phải có kiểu abc@mail.acb!";
-		changeValidateInputCheck("email", true);
+		toogleDisableBtnSubmit("email", true);
 	} else {
 		emailError.textContent = "";
-		changeValidateInputCheck("email", false);
+		toogleDisableBtnSubmit("email", false);
 	}
 }
 
@@ -94,13 +96,13 @@ function validatePhone() {
 
 	if (phone.value === "") {
 		phoneError.textContent = "Vui lòng nhập số điện thoại!";
-		changeValidateInputCheck("phone", true);
+		toogleDisableBtnSubmit("phone", true);
 	} else if (!regexPhone.test(phone.value)) {
 		phoneError.textContent = "Số điện thoại gồm 10 kí tự và là số!";
-		changeValidateInputCheck("phone", true);
+		toogleDisableBtnSubmit("phone", true);
 	} else {
 		phoneError.textContent = "";
-		changeValidateInputCheck("phone", false);
+		toogleDisableBtnSubmit("phone", false);
 	}
 }
 
@@ -113,13 +115,52 @@ function validateHouseNumber() {
 
 	if (houseNumber.value === "") {
 		houseNumberError.textContent = "Vui lòng nhập số nhà!";
-		changeValidateInputCheck("houseNumber", true);
+		toogleDisableBtnSubmit("houseNumber", true);
 	} else if (!regexHouseNumber.test(houseNumber.value)) {
 		houseNumberError.textContent = "Số nhà phải là số!";
-		changeValidateInputCheck("houseNumber", true);
+		toogleDisableBtnSubmit("houseNumber", true);
 	} else {
 		houseNumberError.textContent = "";
-		changeValidateInputCheck("houseNumber", false);
+		toogleDisableBtnSubmit("houseNumber", false);
+	}
+}
+
+function validateAddress() {
+	const province = document.querySelector("#selectProvince");
+	const provinceError = document.querySelector(
+		"#selectProvince ~ .buyDialog__form__error"
+	);
+	const district = document.querySelector("#selectDistrict");
+	const districtError = document.querySelector(
+		"#selectDistrict ~ .buyDialog__form__error"
+	);
+	const ward = document.querySelector("#selectWard");
+	const wardError = document.querySelector(
+		"#selectWard ~ .buyDialog__form__error"
+	);
+
+	if (province.value === "none") {
+		toogleDisableBtnSubmit("province", true);
+		provinceError.textContent = "Vui lòng chọn tỉnh/thành phố!";
+	} else {
+		provinceError.textContent = "";
+		toogleDisableBtnSubmit("province", false);
+	}
+
+	if (district.value === "none") {
+		toogleDisableBtnSubmit("district", true);
+		districtError.textContent = "Vui lòng chọn quận/huyện!";
+	} else {
+		districtError.textContent = "";
+		toogleDisableBtnSubmit("district", false);
+	}
+
+	if (ward.value === "none") {
+		toogleDisableBtnSubmit("ward", true);
+		wardError.textContent = "Vui lòng chọn phường/xã!";
+	} else {
+		wardError.textContent = "";
+		toogleDisableBtnSubmit("ward", false);
 	}
 }
 
@@ -129,6 +170,14 @@ function validateHouseNumber() {
 	const email = document.querySelector("#buyDialog__input__email");
 	const phone = document.querySelector("#buyDialog__input__phone");
 	const houseNumber = document.querySelector("#buyDialog__input__houseNumber");
+	const province = document.querySelector("#selectProvince");
+	const district = document.querySelector("#selectDistrict");
+	const ward = document.querySelector("#selectWard");
+
+	province.addEventListener("change", () => {
+		district.value = "none";
+		ward.value = "none";
+	});
 
 	firstName.addEventListener("change", validateFirstName);
 	firstName.addEventListener("keyup", validateFirstName);
@@ -146,27 +195,22 @@ function validateHouseNumber() {
 	phone.addEventListener("change", validatePhone);
 	phone.addEventListener("keyup", validatePhone);
 
+	province.addEventListener("blur", validateAddress);
+	province.addEventListener("input", validateAddress);
+	province.addEventListener("click", validateAddress);
+	province.addEventListener("change", validateAddress);
+
+	district.addEventListener("blur", validateAddress);
+	district.addEventListener("input", validateAddress);
+	district.addEventListener("click", validateAddress);
+	district.addEventListener("change", validateAddress);
+
+	ward.addEventListener("blur", validateAddress);
+	ward.addEventListener("input", validateAddress);
+	ward.addEventListener("click", validateAddress);
+	ward.addEventListener("change", validateAddress);
+
 	houseNumber.addEventListener("blur", validateHouseNumber);
 	houseNumber.addEventListener("change", validateHouseNumber);
 	houseNumber.addEventListener("keyup", validateHouseNumber);
-
-	firstName.addEventListener("change", toogleDisableBtnSubmit);
-	firstName.addEventListener("blur", toogleDisableBtnSubmit);
-	firstName.addEventListener("keyup", toogleDisableBtnSubmit);
-
-	lastName.addEventListener("blur", toogleDisableBtnSubmit);
-	lastName.addEventListener("change", toogleDisableBtnSubmit);
-	lastName.addEventListener("keyup", toogleDisableBtnSubmit);
-
-	email.addEventListener("blur", toogleDisableBtnSubmit);
-	email.addEventListener("change", toogleDisableBtnSubmit);
-	email.addEventListener("keyup", toogleDisableBtnSubmit);
-
-	phone.addEventListener("blur", toogleDisableBtnSubmit);
-	phone.addEventListener("change", toogleDisableBtnSubmit);
-	phone.addEventListener("keyup", toogleDisableBtnSubmit);
-
-	houseNumber.addEventListener("blur", toogleDisableBtnSubmit);
-	houseNumber.addEventListener("change", toogleDisableBtnSubmit);
-	houseNumber.addEventListener("keyup", toogleDisableBtnSubmit);
 })();
