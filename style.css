@@ -132,6 +132,12 @@ main {
 	justify-content: space-between;
 	margin-top: 20px;
 }
+.products__item__content h3 {
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
 
 .cart {
 	width: 100%;

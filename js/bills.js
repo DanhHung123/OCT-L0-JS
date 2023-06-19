@@ -58,7 +58,7 @@ const createNewBill = () => {
 		phone: phone,
 		address: ward + ", " + district + ", " + province,
 		houseNumber: houseNumber,
-		message: message,
+		message: message.trim(),
 		date:
 			today.getMonth() + 1 + "/" + today.getDate() + "/" + today.getFullYear(),
 		products: listProduct,
@@ -196,8 +196,6 @@ const renderBillUI = (billItems) => {
 					<img src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png" alt="bill empty">
 					<button type="button"><a href="./index.html">Back to shopping</a></button>
 				</div>`;
-		} else {
-			return "<tr><h2 class='bill__error'>Lỗi server, vui lòng thử lại sau!</h2></tr>";
 		}
 	})();
 

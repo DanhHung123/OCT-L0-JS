@@ -1,5 +1,8 @@
 function notify(type) {
 	const notifyBox = document.querySelector(".notify");
+	if (notifyBox.children.length >= 3) {
+		notifyBox.innerHTML = "";
+	}
 
 	const listType = {
 		INFOR: {
@@ -30,7 +33,7 @@ function notify(type) {
 		RETURN: {
 			icon: "<i class='fa-solid fa-right-left'></i>",
 			message: "Trả hàng thành công !",
-			class: "notify--delete",
+			class: "notify--infor",
 		},
 		BANBUY: {
 			icon: "<i class='fa-solid fa-ban'></i>",

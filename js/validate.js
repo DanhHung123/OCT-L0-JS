@@ -38,9 +38,10 @@ function validateFirstName() {
 	const firstNameError = document.querySelector(
 		"#buyDialog__input__firstName ~ .buyDialog__form__error"
 	);
-	if (firstName.value === "") {
+	if (firstName.value.trim() === "") {
 		firstNameError.textContent = "Vui lòng nhập họ!";
 		toogleDisableBtnSubmit("firstName", true);
+		firstName.value = "";
 	} else if (!regexName.test(firstName.value)) {
 		firstNameError.textContent = "Họ không được có số và kí tự đặc biệt!";
 		toogleDisableBtnSubmit("firstName", true);
@@ -57,9 +58,10 @@ function validateLastName() {
 		"#buyDialog__input__lastName ~ .buyDialog__form__error"
 	);
 
-	if (lastName.value === "") {
+	if (lastName.value.trim() === "") {
 		lastNameError.textContent = "Vui lòng nhập tên!";
 		toogleDisableBtnSubmit("lastName", true);
+		lastName.value = "";
 	} else if (!regexName.test(lastName.value)) {
 		lastNameError.textContent = "Tên không được có số và kí tự đặc biệt!";
 		toogleDisableBtnSubmit("lastName", true);
@@ -75,9 +77,10 @@ function validateEmail() {
 	const emailError = document.querySelector(
 		"#buyDialog__input__email ~ .buyDialog__form__error"
 	);
-	if (email.value === "") {
+	if (email.value.trim() === "") {
 		emailError.textContent = "Vui lòng nhập email!";
 		toogleDisableBtnSubmit("email", true);
+		email.value = "";
 	} else if (!regexEmail.test(email.value)) {
 		emailError.textContent = "Email phải có kiểu abc@mail.acb!";
 		toogleDisableBtnSubmit("email", true);
@@ -94,9 +97,10 @@ function validatePhone() {
 		"#buyDialog__input__phone ~ .buyDialog__form__error"
 	);
 
-	if (phone.value === "") {
+	if (phone.value.trim() === "") {
 		phoneError.textContent = "Vui lòng nhập số điện thoại!";
 		toogleDisableBtnSubmit("phone", true);
+		phone.value = "";
 	} else if (!regexPhone.test(phone.value)) {
 		phoneError.textContent = "Số điện thoại gồm 10 kí tự và là số!";
 		toogleDisableBtnSubmit("phone", true);
@@ -113,9 +117,10 @@ function validateHouseNumber() {
 		"#buyDialog__input__houseNumber ~ .buyDialog__form__error"
 	);
 
-	if (houseNumber.value === "") {
+	if (houseNumber.value.trim() === "") {
 		houseNumberError.textContent = "Vui lòng nhập số nhà!";
 		toogleDisableBtnSubmit("houseNumber", true);
+		houseNumber.value = "";
 	} else if (!regexHouseNumber.test(houseNumber.value)) {
 		houseNumberError.textContent = "Số nhà phải là số!";
 		toogleDisableBtnSubmit("houseNumber", true);
@@ -176,6 +181,10 @@ function validateAddress() {
 
 	province.addEventListener("change", () => {
 		district.value = "none";
+		ward.value = "none";
+	});
+
+	district.addEventListener("change", () => {
 		ward.value = "none";
 	});
 

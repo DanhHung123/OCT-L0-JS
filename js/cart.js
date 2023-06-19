@@ -54,7 +54,8 @@ function addSP(idSp, quanlity) {
 
 function deleteSp(id) {
 	const dataCartLocal = myLibary.getItemCartFromLocalstorage();
-	if (dataCartLocal) {
+	let comfirmDetete = confirm("Bạn muốn xóa sản phẩm này khỏi giỏ hàng ?");
+	if (dataCartLocal && comfirmDetete) {
 		const cartAfterDelete = dataCartLocal.filter((product) => {
 			return product.id !== id;
 		});
@@ -67,20 +68,29 @@ function deleteSp(id) {
 
 function changeQuanlityProductCart(id, maxQuanlity, quanlity) {
 	const dataCartLocal = myLibary.getItemCartFromLocalstorage();
-	if (dataCartLocal) {
-		const cartLocal = dataCartLocal.map((item) => {
-			let newQuanlity = item.quanlity + quanlity;
-			if (item.id === id && newQuanlity > 0 && newQuanlity <= maxQuanlity) {
-				return {
-					id: item.id,
-					quanlity: newQuanlity,
-				};
-			}
-			return item;
-		});
 
-		myLibary.saveItemCartFromLocalstorage(cartLocal);
-		renderCartTable(renderCartItem());
+	if (dataCartLocal) {
+		const cartItem = dataCartLocal.find((item) => item.id === id);
+		let newQuanlity = cartItem.quanlity + quanlity;
+		if (newQuanlity > 0 && newQuanlity <= maxQuanlity) {
+			cartItem.quanlity = newQuanlity;
+		}
+		if (newQuanlity > maxQuanlity) {
+			notify("QUANLITY");
+		}
+
+		if (newQuanlity < 1) {
+			deleteSp(id);
+		} else {
+			const newCartLocal = dataCartLocal.map((item) => {
+				if (item.id === id) {
+					return cartItem;
+				}
+				return item;
+			});
+			myLibary.saveItemCartFromLocalstorage(newCartLocal);
+			renderCartTable(renderCartItem());
+		}
 	}
 }
 
